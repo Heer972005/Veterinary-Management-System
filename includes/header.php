@@ -24,7 +24,9 @@
                 <li class="nav-item"><a class="nav-link" href="/user/shop.php">Shop</a></li>
                 <li class="nav-item"><a class="nav-link" href="/user/appointments.php">Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="/login.php">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/user/pets.php">My Pets</a></li>
             </ul>
         </div>
+        
     </div>
 </nav>
