@@ -35,14 +35,25 @@ $items = $conn->query("SELECT * FROM cart_items WHERE cartID=$cartID");
 
 while ($i = $items->fetch_assoc()) {
 
+    // Insert order item
     $conn->query("
         INSERT INTO orderItems(orderID, productID, quantity, price)
         VALUES($orderID, {$i['productID']}, {$i['quantity']}, 0)
     ");
-}
 
+    // 🔥 REDUCE STOCK
+    $conn->query("
+        UPDATE products 
+        SET stock = stock - {$i['quantity']}
+        WHERE productID = {$i['productID']}
+    ");
+}
 // Clear cart
 $conn->query("DELETE FROM cart_items WHERE cartID=$cartID");
 
-echo "<script>alert('Order Placed'); window.location='orders.php';</script>";
+
+echo "<script>
+alert('Order Placed');
+window.location='invoicePDF.php?id=$orderID';
+</script>";
 ?>

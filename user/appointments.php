@@ -4,6 +4,37 @@ include '../config/db.php';
 include '../includes/header.php'; 
 ?>
 <?php
+$userID = $_SESSION['userID'];
+
+// Get appointments within 1 hour and not yet notified
+$reminder = $conn->query("
+    SELECT a.*, p.petName 
+    FROM appointments a
+    JOIN pets p ON a.petID = p.petID
+    WHERE p.userID = $userID
+    AND a.appointmentStatus = 'Pending'
+    AND a.reminderSent = 0
+    AND a.appointmentDate BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+");
+
+while ($r = $reminder->fetch_assoc()) {
+
+    // 🔔 SHOW ALERT (for demo)
+    echo "<script>
+        alert('Reminder: Appointment for {$r['petName']} within 1 hour!');
+    </script>";
+
+    // 👉 OPTIONAL: SEND EMAIL/SMS HERE
+
+    // ✅ Mark as sent
+    $conn->query("
+        UPDATE appointments 
+        SET reminderSent = 1 
+        WHERE appointmentID = {$r['appointmentID']}
+    ");
+}
+?>
+<?php
 if (isset($_POST['book'])) {
 
     $petID = $_POST['petID'];
@@ -69,44 +100,104 @@ if (isset($_GET['cancel'])) {
         <select name="doctorID" class="form-control mb-2" required>
             <option value="">Select Doctor</option>
             <?php
-            $docs = $conn->query("SELECT * FROM doctors");
+            $docs = $conn->query("
+    SELECT d.doctorID, u.userName 
+    FROM doctors d
+    JOIN users u ON d.userID = u.userID
+");
             while ($d = $docs->fetch_assoc()) {
-                echo "<option value='{$d['doctorID']}'>Doctor ID: {$d['doctorID']}</option>";
+                echo "<option value='{$d['doctorID']}'>{$d['userName']} (ID: {$d['doctorID']})</option>";
             }
             ?>
         </select>
 
         <!-- DATE -->
-        <input type="datetime-local" name="date" class="form-control mb-2" required>
-
+        <input type="datetime-local" name="date" class="form-control mb-2" id="dateInput" required>
         <button type="submit" name="book" class="btn btn-success">Book Appointment</button>
     </form>
+    <script>
+    let now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
-    <hr>
+    document.getElementById("dateInput").min = now.toISOString().slice(0,16);
+</script>
+<hr>
 
-    <h4>My Appointments</h4>
+<h4>Upcoming Appointments</h4>
 
-    <?php
-    $result = $conn->query("
-        SELECT a.*, p.petName 
-        FROM appointments a
-        JOIN pets p ON a.petID = p.petID
-        WHERE p.userID = $userID
-    ");
-    
-    while ($row = $result->fetch_assoc()) {
+<?php
+$upcoming = $conn->query("
+    SELECT a.*, p.petName 
+    FROM appointments a
+    JOIN pets p ON a.petID = p.petID
+    WHERE p.userID = $userID 
+    AND a.appointmentStatus = 'Pending'
+");
+
+if ($upcoming->num_rows > 0) {
+    while ($row = $upcoming->fetch_assoc()) {
         echo "<div class='card p-2 mb-2'>
-        <b>{$row['petName']}</b><br>
-        Date: {$row['appointmentDate']}<br>
-        Status: {$row['appointmentStatus']}<br>";
-
-        if ($row['appointmentStatus'] == 'Pending') {
-            echo "<a href='appointments.php?cancel={$row['appointmentID']}' 
-            class='btn btn-danger btn-sm mt-2'>Cancel</a>";
-        }
-
-echo "</div>";
+                <b>{$row['petName']}</b><br>
+                Date: {$row['appointmentDate']}<br>
+                Status: Pending<br>
+                <a href='appointments.php?cancel={$row['appointmentID']}' 
+                class='btn btn-danger btn-sm mt-2'>Cancel</a>
+              </div>";
     }
+} else {
+    echo "<p>No upcoming appointments</p>";
+}
+?>
+
+<hr>
+
+<h4>Completed Appointments</h4>
+
+<?php
+$completed = $conn->query("
+    SELECT a.*, p.petName 
+    FROM appointments a
+    JOIN pets p ON a.petID = p.petID
+    WHERE p.userID = $userID 
+    AND a.appointmentStatus = 'Completed'
+");
+
+if ($completed->num_rows > 0) {
+    while ($row = $completed->fetch_assoc()) {
+        echo "<div class='card p-2 mb-2'>
+                <b>{$row['petName']}</b><br>
+                Date: {$row['appointmentDate']}<br>
+                Status: Completed
+              </div>";
+    }
+} else {
+    echo "<p>No completed appointments</p>";
+}
+?>
+
+<hr>
+
+<h4>Cancelled Appointments</h4>
+
+<?php
+$cancelled = $conn->query("
+    SELECT a.*, p.petName 
+    FROM appointments a
+    JOIN pets p ON a.petID = p.petID
+    WHERE p.userID = $userID 
+    AND a.appointmentStatus = 'Cancelled'
+");
+
+if ($cancelled->num_rows > 0) {
+    while ($row = $cancelled->fetch_assoc()) {
+        echo "<div class='card p-2 mb-2'>
+                <b>{$row['petName']}</b><br>
+                Date: {$row['appointmentDate']}<br>
+                Status: Cancelled
+              </div>";
+    }
+}
+?>
     ?>
     
 </div>

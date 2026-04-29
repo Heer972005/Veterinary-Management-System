@@ -1,5 +1,6 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'config/db.php'; ?>
+
 <?php
 if (isset($_POST['register'])) {
 
@@ -8,19 +9,38 @@ if (isset($_POST['register'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
 
+    // Check duplicate email
+    $check = $conn->query("SELECT * FROM users WHERE email='$email'");
+    if ($check->num_rows > 0) {
+        echo "<script>alert('Email already exists');</script>";
+        return;
+    }
+
     // Insert user
-    $sql = "INSERT INTO users(userName, email, password) VALUES('$name','$email','$password')";
-    $conn->query($sql);
+    $conn->query("
+        INSERT INTO users(userName, email, password) 
+        VALUES('$name','$email','$password')
+    ");
 
     $userID = $conn->insert_id;
 
     // Assign role
-    $conn->query("INSERT INTO user_roles(userID, roleID) VALUES($userID, $role)");
+    $conn->query("
+        INSERT INTO user_roles(userID, roleID) 
+        VALUES($userID, $role)
+    ");
+
+    // 🔥 IMPORTANT: If Doctor → insert into doctors table
+    if ($role == 2) {
+        $conn->query("
+            INSERT INTO doctors(userID, specialization) 
+            VALUES($userID, 'General')
+        ");
+    }
 
     echo "<script>alert('Registered Successfully'); window.location='login.php';</script>";
 }
 ?>
-
 <div class="container mt-5">
     <h2>Register</h2>
 

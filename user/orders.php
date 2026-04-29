@@ -3,7 +3,7 @@ include '../includes/auth.php';
 include '../config/db.php';
 include '../includes/header.php'; 
 ?>
-
+    
 <div class="container mt-5">
     <h2>My Orders 📦</h2>
 
@@ -18,8 +18,11 @@ include '../includes/header.php';
                 Total: ₹{$o['totalAmt']}<br>
                 Status: {$o['orderStatus']}
               </div>";
+        echo "<a href='invoiceView.php?id={$o['orderID']}' class='btn btn-info'>View Invoice</a>";
     }
+    
     ?>
 </div>
+
 
 <?php include '../includes/footer.php'; ?>

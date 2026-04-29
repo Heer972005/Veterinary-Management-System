@@ -17,29 +17,33 @@ include '../includes/header.php';
         JOIN pets p ON a.petID = p.petID
         WHERE p.userID = $userID
     ");
+while ($row = $result->fetch_assoc()) {
 
-    while ($row = $result->fetch_assoc()) {
+    echo "<div class='card p-3 mb-3'>
+            <b>Pet:</b> {$row['petName']}<br>
+            <b>Notes:</b> {$row['notes']}<br>";
 
-        echo "<div class='card p-3 mb-3'>
-                <b>Pet:</b> {$row['petName']}<br>
-                <b>Notes:</b> {$row['notes']}<br>";
+    // Medicines
+    $items = $conn->query("
+        SELECT pi.*, prd.proName 
+        FROM prescriptionItems pi
+        JOIN products prd ON pi.productID = prd.productID
+        WHERE pi.prescriptionID = {$row['prescriptionID']}
+    ");
 
-        // Medicines
-        $items = $conn->query("
-            SELECT pi.*, prd.proName 
-            FROM prescriptionItems pi
-            JOIN products prd ON pi.productID = prd.productID
-            WHERE pi.prescriptionID = {$row['prescriptionID']}
-        ");
-
-        while ($i = $items->fetch_assoc()) {
-            echo "{$i['proName']} - Qty: {$i['quantity']}<br>";
-        }
-
-        echo "<a href='shop.php' class='btn btn-warning mt-2'>Buy Medicines</a>";
-
-        echo "</div>";
+    while ($i = $items->fetch_assoc()) {
+        echo "{$i['proName']} - Qty: {$i['quantity']}<br>";
     }
+
+    // ✅ FIXED BUTTON
+    echo "<a href='addPrescriptionCart.php?id={$row['prescriptionID']}'
+            class='btn btn-warning mt-2'
+            onclick=\"return confirm('Do you want to add these medicines to cart?')\">
+            Buy Medicines
+          </a>";
+
+    echo "</div>";
+}
     ?>
 
 </div>
