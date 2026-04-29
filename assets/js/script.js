@@ -28,3 +28,9 @@ $("form").submit(function () {
         return false;
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        document.querySelector(".loader").style.display = "none";
+    }, 1000); // 1 second delay
+});

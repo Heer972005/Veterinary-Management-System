@@ -11,6 +11,12 @@
 </head>
 <body>
 
+<div class="loader">
+    <video autoplay muted loop playsinline class="loader-video">
+        <source src="../assets/loader.mp4" type="video/mp4">
+    </video>
+    <h2>Loading...</h2>
+</div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="/index.php">🐾 PetCare</a>
