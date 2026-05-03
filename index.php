@@ -16,7 +16,7 @@
                         From health checkups to shopping, everything your pet needs in one place.
                     </p>
 
-                    <a href="user/appointments.php" class="btn btn-primary mt-3">
+                    <a href="login.php" class="btn btn-primary mt-3">
                         Book Appointment
                     </a>
                     <div class="hero-image-wrapper mt-4">
@@ -259,18 +259,4 @@
     </iframe>
 </div>
 
-
-
-<!-- JS -->
-<script>
-function toggleTheme() {
-    document.body.classList.toggle("dark");
-}
-window.onload = function () {
-    document.querySelector(".loader").style.display = "none";
-};
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <?php include 'includes/footer.php'; ?>

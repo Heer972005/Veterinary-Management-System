@@ -1,15 +1,3 @@
-$(document).ready(function () {
-
-    console.log("JS Loaded");
-
-    // Example: alert on click
-    // $(".card").click(function () {
-    //     alert("Feature coming soon!");
-    // });
-
-});
-
-
 $("#registerForm").submit(function () {
     let password = $("input[name='password']").val();
 
@@ -36,3 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+}

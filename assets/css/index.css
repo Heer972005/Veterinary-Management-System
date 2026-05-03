@@ -368,3 +368,89 @@ body.dark .custom-navbar {
      height: auto;
      margin-bottom: 10px;
  }
+
+ /*registration
+ .register-card {
+     width: 100%;
+     max-width: 500px;
+     background: white;
+     border-radius: 20px;
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+ }
+
+ body.dark .register-card {
+     background: #1e1e1e;
+     color: white;
+ }
+*/
+/*login*/
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .login-card {
+    background: #1e1e1e;
+    color: white;
+}
+
+.login-card input {
+    border-radius: 10px;
+}
+.paw-login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* MAIN PAW BODY */
+.paw-login {
+    width: 400px;
+    height: 350px;
+    background: #a4c1c2;
+    border-radius: 40%;
+    position: relative;
+    padding: 80px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* TOP PADS */
+.paw-login::before,
+.paw-login::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: #a4c1c2;
+    border-radius: 50%;
+    top: -60px;
+}
+
+.paw-login::before {
+    left: 5px;
+}
+
+.paw-login::after {
+    right: 5px;
+}
+
+/* SIDE PAD */
+.paw-login span {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background:blue;
+    border-radius: 50%;
+    bottom: -30px;
+    left: 5px;
+}
+
+/* FORM INSIDE */
+.paw-login form {
+    position: relative;
+    z-index: 2;
+}

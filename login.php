@@ -7,57 +7,78 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // ✅ Prepared statement
     $stmt = $conn->prepare("
-       SELECT u.*, r.roleName 
-       FROM users u
-       JOIN user_roles ur ON u.userID = ur.userID
-       JOIN roles r ON ur.roleID = r.roleID
-       WHERE u.email = ?
+        SELECT u.*, r.roleName 
+        FROM users u
+        JOIN user_roles ur ON u.userID = ur.userID
+        JOIN roles r ON ur.roleID = r.roleID
+        WHERE u.email = ?
     ");
 
-    $stmt->bind_param("s", $email); // "s" = string
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-
     if ($result->num_rows > 0) {
+
         $user = $result->fetch_assoc();
 
+        // ✅ Password check
         if (password_verify($password, $user['password'])) {
 
             $_SESSION['userID'] = $user['userID'];
             $_SESSION['role'] = $user['roleName'];
             $_SESSION['name'] = $user['userName'];
-            // GET USER ROLE
-            $userID = $user['userID'];
-            $roleCheck = $conn->query("
-                SELECT r.roleName 
-                FROM user_roles ur
-                JOIN roles r ON ur.roleID = r.roleID
-                WHERE ur.userID = $userID
-            ")->fetch_assoc();
-            
-            $role = $roleCheck['roleName'];
-            if ($role == 'Doctor') {
 
-            $doc = $conn->query("
-                SELECT status 
-                FROM doctors 
-                WHERE userID = $userID
-            ")->fetch_assoc();
+            $userID = (int)$user['userID'];
 
-            if ($doc['status'] != 'Approved') {
-                echo "<script>alert('Your doctor account is pending approval'); window.location='login.php';</script>";
+            // ================= DOCTOR APPROVAL =================
+            if ($user['roleName'] == 'Doctor') {
+
+                $doc = $conn->query("
+                    SELECT status 
+                    FROM doctors 
+                    WHERE userID = $userID
+                ");
+
+                if ($doc->num_rows > 0) {
+                    $docData = $doc->fetch_assoc();
+
+                    if ($docData['status'] != 'Approved') {
+                        echo "<script>
+                            alert('Your doctor account is pending approval');
+                            window.location='login.php';
+                        </script>";
+                        exit();
+                    }
+                } else {
+                    echo "<script>
+                        alert('Doctor record not found');
+                        window.location='login.php';
+                    </script>";
+                    exit();
+                }
+            }
+
+            // ================= REDIRECT BACK =================
+            if (isset($_SESSION['redirect_after_login'])) {
+                $redirect = $_SESSION['redirect_after_login'];
+                unset($_SESSION['redirect_after_login']);
+                header("Location: $redirect");
                 exit();
             }
-}
-            // Redirect based on role
+
+            // ================= DEFAULT REDIRECT =================
             if ($user['roleName'] == 'Admin') {
                 header("Location: admin/dashboard.php");
+                exit();
             } elseif ($user['roleName'] == 'Doctor') {
                 header("Location: doctor/dashboard.php");
+                exit();
             } else {
                 header("Location: user/dashboard.php");
+                exit();
             }
 
         } else {
@@ -72,15 +93,25 @@ if (isset($_POST['login'])) {
 
 <?php include 'includes/header.php'; ?>
 
-<div class="container mt-5">
-    <h2>Login</h2>
+<main class="flex-grow-1 d-flex align-items-center justify-content-center">
 
-    <form method="POST" id="loginForm">
-        <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
-        <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+    <div class="paw-login-wrapper">
+        <div class="paw-login">
 
-        <button type="submit" name="login" class="btn btn-success">Login</button>
-    </form>
-</div>
+            <h2 class="text-center mb-4">Login</h2>
+
+            <form method="POST" id="loginForm">
+                <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+                <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+
+                <button type="submit" name="login" class="btn btn-success w-100">
+                    Login
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+</main>
 
 <?php include 'includes/footer.php'; ?>

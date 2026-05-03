@@ -1,48 +1,63 @@
-<?php 
-include '../includes/auth.php'; 
-include '../config/db.php';
-include '../includes/header.php'; 
+<?php
+session_start();
+include 'config/db.php';
+include 'includes/header.php';
 ?>
+
+<main class="flex-grow-1">
 
 <?php
 // ================= ADD TO CART =================
 if (isset($_POST['addCart'])) {
 
-    $userID = $_SESSION['userID'];
-    $productID = $_POST['productID'];
-    $qty = $_POST['qty'];
-
-    // Check if cart exists
-    $cart = $conn->query("SELECT * FROM cart WHERE userID = $userID");
-
-    if ($cart->num_rows > 0) {
-        $cartData = $cart->fetch_assoc();
-        $cartID = $cartData['cartID'];
-    } else {
-        $conn->query("INSERT INTO cart(userID) VALUES($userID)");
-        $cartID = $conn->insert_id;
+    // 🔒 If not logged in → redirect to login
+    if (!isset($_SESSION['userID'])) {
+        $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+        header("Location: login.php");
+        exit();
     }
 
-    // Insert or update cart item
-    $check = $conn->query("
-        SELECT * FROM cart_items 
-        WHERE cartID = $cartID AND productID = $productID
-    ");
+    $userID = (int) $_SESSION['userID'];
+    $productID = (int) $_POST['productID'];
+    $qty = (int) $_POST['qty'];
 
-    if ($check->num_rows > 0) {
-        $conn->query("
-            UPDATE cart_items 
-            SET quantity = quantity + $qty 
+    // ❗ Prevent invalid quantity
+    if ($qty <= 0) {
+        echo "<script>alert('Invalid quantity');</script>";
+    } else {
+
+        // Check if cart exists
+        $cart = $conn->query("SELECT * FROM cart WHERE userID = $userID");
+
+        if ($cart->num_rows > 0) {
+            $cartData = $cart->fetch_assoc();
+            $cartID = $cartData['cartID'];
+        } else {
+            $conn->query("INSERT INTO cart(userID) VALUES($userID)");
+            $cartID = $conn->insert_id;
+        }
+
+        // Check if item already in cart
+        $check = $conn->query("
+            SELECT * FROM cart_items 
             WHERE cartID = $cartID AND productID = $productID
         ");
-    } else {
-        $conn->query("
-            INSERT INTO cart_items(cartID, productID, quantity)
-            VALUES($cartID, $productID, $qty)
-        ");
-    }
 
-    echo "<script>alert('Added to Cart');</script>";
+        if ($check->num_rows > 0) {
+            $conn->query("
+                UPDATE cart_items 
+                SET quantity = quantity + $qty 
+                WHERE cartID = $cartID AND productID = $productID
+            ");
+        } else {
+            $conn->query("
+                INSERT INTO cart_items(cartID, productID, quantity)
+                VALUES($cartID, $productID, $qty)
+            ");
+        }
+
+        echo "<script>alert('Added to Cart');</script>";
+    }
 }
 ?>
 
@@ -56,7 +71,6 @@ if (isset($_POST['addCart'])) {
         <div class="col-md-3">
             <select name="cat" class="form-control">
                 <option value="">All Categories</option>
-
                 <?php
                 $cats = $conn->query("SELECT * FROM categories");
                 while ($c = $cats->fetch_assoc()) {
@@ -101,43 +115,43 @@ if (isset($_POST['addCart'])) {
     $where = [];
     $order = "";
 
-    // CATEGORY
     if (!empty($_GET['cat'])) {
-        $cat = $_GET['cat'];
-        $where[] = "catID = $cat";
+        $cat = (int) $_GET['cat'];
+        $where[] = "p.catID = $cat";
     }
 
-    // PRICE
     if (!empty($_GET['min'])) {
-        $min = $_GET['min'];
-        $where[] = "price >= $min";
+        $min = (int) $_GET['min'];
+        $where[] = "p.price >= $min";
     }
 
     if (!empty($_GET['max'])) {
-        $max = $_GET['max'];
-        $where[] = "price <= $max";
+        $max = (int) $_GET['max'];
+        $where[] = "p.price <= $max";
     }
 
-    // SORT
     if (!empty($_GET['sort'])) {
         if ($_GET['sort'] == 'low') {
-            $order = "ORDER BY price ASC";
+            $order = "ORDER BY p.price ASC";
         } elseif ($_GET['sort'] == 'high') {
-            $order = "ORDER BY price DESC";
+            $order = "ORDER BY p.price DESC";
         } elseif ($_GET['sort'] == 'name') {
-            $order = "ORDER BY proName ASC";
+            $order = "ORDER BY p.proName ASC";
         }
     }
 
-    // BUILD QUERY
     $condition = "";
     if (!empty($where)) {
         $condition = "WHERE " . implode(" AND ", $where);
     }
 
-    $products = $conn->query("SELECT p.*, i.quantity AS stock
-                            FROM products p
-                            LEFT JOIN inventory i ON p.productID = i.productID");
+    $products = $conn->query("
+        SELECT p.*, i.quantity AS stock
+        FROM products p
+        LEFT JOIN inventory i ON p.productID = i.productID
+        $condition
+        $order
+    ");
     ?>
 
     <!-- ================= PRODUCTS ================= -->
@@ -174,4 +188,6 @@ if (isset($_POST['addCart'])) {
 
 </div>
 
-<?php include '../includes/footer.php'; ?>
+</main>
+
+<?php include 'includes/footer.php'; ?>
