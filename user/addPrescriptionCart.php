@@ -17,17 +17,17 @@ if ($cart->num_rows > 0) {
 
 // Get prescription items + stock
 $items = $conn->query("
-    SELECT pi.*, p.proName, p.stock 
+    SELECT pi.*, p.proName, i.quantity AS stock
     FROM prescriptionItems pi
     JOIN products p ON pi.productID = p.productID
+    LEFT JOIN inventory i ON p.productID = i.productID
     WHERE pi.prescriptionID = $prescriptionID
 ");
-
 $outOfStock = [];
 $added = [];
 
 while ($i = $items->fetch_assoc()) {
-
+    $stock = $i['stock'] ?? 0;
     if ($i['stock'] >= $i['quantity']) {
 
         // Add to cart

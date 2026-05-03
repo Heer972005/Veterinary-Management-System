@@ -6,209 +6,30 @@
 <title>PetCare System</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-body.dark {
-    background: #121212;
-    color: #fff;
-}
-.card { border-radius: 12px; }
-.section { padding: 60px 0; }
-.hero-section {
-    background: linear-gradient(135deg, #f5f7ff, #e6ecff);
-}
-
-.hero-card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.hero-small-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-.hero-image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.hero-img {
-    width: 100%;
-    height: 400px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    object-fit: cover;
-}
-.unique-box {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.unique-box ul {
-    padding-left: 20px;
-    list-style: none; 
-}
-.unique-box ul li {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 10px;
-}
-
-.unique-box ul li::before {
-    content: "🐾";
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.product-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    height: 260px;                 /* SAME HEIGHT */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.carousel-img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;   /* ✅ keeps full image */
-    background: #f8f9fa;
-}
-.carousel-control-prev,
-.carousel-control-next {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0,0,0,0.6);
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.carousel-control-prev {
-    left: 10px;
-}
-
-.carousel-control-next {
-    right: 10px;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    filter: invert(1); /* makes arrow white */
-}
-.service-card {
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.service-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: 0.4s;
-}
-
-.service-card .overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 15px;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-}
-
-.service-card:hover img {
-    transform: scale(1.1);
-}
-.team-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
-
-.team-card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.team-card:hover {
-    transform: translateY(-5px);
-}
-.review-slider {
-    overflow: hidden;
-    position: relative;
-}
-
-.review-track {
-    display: flex;
-    gap: 20px;
-    animation: scrollReviews 20s linear infinite;
-}
-
-.review-card {
-    min-width: 300px;
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.review-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-.stars {
-    color: gold;
-}
-
-.review-text {
-    font-size: 14px;
-}
-
-/* animation */
-@keyframes scrollReviews {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-</style>
+<link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body>
 <?php include 'config/db.php'; ?>
-<!-- 🔥 NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="#">🐾 PetCare</a>
+<!--  NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar px-3">
+    
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="assets/images/logo1.png" class="logo-img">
+    </a>
 
+    <!-- Right side buttons -->
     <div class="ms-auto">
-        <a href="user/shop.php" class="btn btn-outline-light btn-sm">Shop</a>
-        <a href="user/appointments.php" class="btn btn-outline-light btn-sm">Appointments</a>
+        <a href="register.php" class="btn btn-dark btn-sm me-2">REGISTER</a>
+        <a href="login.php" class="btn btn-dark btn-sm me-2">LOGIN</a>
+        <a href="user/shop.php" class="btn btn-dark btn-sm me-2">SHOP</a>
         <button onclick="toggleTheme()" class="btn btn-warning btn-sm">🌙</button>
     </div>
+
 </nav>
 
-<!-- 🔥 HERO CAROUSEL -->
+<!--  HERO CAROUSEL -->
 <div class="hero-section py-5">
     <div class="container">
         <div class="row g-4">
@@ -237,7 +58,7 @@ body.dark {
 
     <!-- 🔝 UNIQUE SECTION -->
     <div class="unique-box p-4 mb-4">
-        <h5>✨ Why Choose PetCare?</h5>
+        <h5> Why Choose PetCare?</h5>
 
         <ul class="mt-3">
             <li>Experienced & trusted doctors</li>
@@ -252,8 +73,36 @@ body.dark {
         </ul>
     </div>
 
-    <!-- 🔽 PRODUCT CAROUSEL -->
-     
+    <!--  PRODUCT CAROUSEL -->
+    <div class="container section">
+    <h2 class="text-center mb-4">Popular Pet Products 🛒</h2>
+
+    <div class="product-slider">
+        <div class="product-track">
+
+            <?php
+            $products = [
+                ["pro1.jpg", "Premium Dog Food"],
+                ["pro2.jpg", "Chew Toys"],
+                ["pro3.jpg", "Cozy Homes"],
+                ["pro4.jpg", "Clothes"],
+                ["pro5.jpg", "Grooming Products"]
+            ];
+
+            // duplicate for infinite scroll
+            foreach (array_merge($products, $products) as $p) {
+                echo "
+                <div class='product-card'>
+                    <img src='assets/images/petProducts/{$p[0]}' class='product-img'>
+                    <p class='mt-2'>{$p[1]}</p>
+                </div>
+                ";
+            }
+            ?>
+
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
@@ -353,9 +202,51 @@ body.dark {
         </div>
     </div>
 </div>
-
-<!-- 🔥 KNOW YOUR PET -->
 <div class="container section">
+    <div class="row g-4 align-items-center">
+
+        <!-- LEFT SIDE (IMAGE + HEADING) -->
+        <div class="col-md-6">
+            <div class="highlight-box p-4">
+                <h2 class="fw-bold">
+                    Caring for Pets with Love 🐾
+                </h2>
+
+                <p class="mt-3">
+                    Your trusted partner for pet healthcare, grooming, and happiness.
+                </p>
+
+                <img src="assets/images/homePet.jpg" class="highlight-img mt-3">
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE (STATS + TEXT) -->
+        <div class="col-md-6">
+
+            <div class="stat-card mb-3">
+                🐶 500+ Happy Pets Treated
+            </div>
+
+            <div class="stat-card mb-3">
+                👨‍⚕️ Certified & Verified Doctors
+            </div>
+
+            <div class="stat-card mb-3">
+                ⏱️ Fast & Easy Online Booking
+            </div>
+
+            <div class="info-box mt-3">
+                PetCare is designed to simplify pet healthcare. From booking appointments
+                to buying products, everything is available in one place — making life
+                easier for pet owners and safer for pets.
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- 🔥 KNOW YOUR PET -->
+<!-- <div class="container section">
     <h2 class="text-center">Know Your Pet 🐶</h2>
 
     <form method="POST" class="mt-4 text-center">
@@ -364,19 +255,19 @@ body.dark {
         <button class="btn btn-primary">Analyze</button>
     </form>
 
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $pet = $_POST['pet'];
-        echo "<div class='alert alert-info mt-3 text-center'>
-        😂 $pet is 90% cute, 10% chaos!
-        Loves food and attention 🐾
-        </div>";
-    }
-    ?>
-</div>
+    //<?php
+    //if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //    $pet = $_POST['pet'];
+    //    echo "<div class='alert alert-info mt-3 text-center'>
+    //    😂 $pet is 90% cute, 10% chaos!
+    //    Loves food and attention 🐾
+    //    </div>";
+    //}
+    //?>
+</div> -->
 
 <!-- 🔥 PET IMAGE FUN (PLACEHOLDER) -->
-<div class="container section text-center">
+<!-- <div class="container section text-center">
     <h2>Fun With Your Pet 📸</h2>
 
     <form method="POST" enctype="multipart/form-data">
@@ -385,14 +276,14 @@ body.dark {
     </form>
 
     <p class="mt-3">Coming soon: AI pet transformations 😎</p>
-</div>
+</div> -->
 
 <!-- 🔥 MAP -->
 <div class="container section">
     <h2 class="text-center">Find Us 📍</h2>
 
     <iframe 
-        src="https://www.google.com/maps?q=rajkot&output=embed" 
+        src="https://www.google.com/maps?q=marwadi+university&output=embed" 
         width="100%" height="300">
     </iframe>
 </div>

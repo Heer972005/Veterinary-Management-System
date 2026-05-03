@@ -1,6 +1,6 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'config/db.php'; ?>
-
+<link rel="stylesheet" href="assets/css/index.css">
 <?php
 if (isset($_POST['register'])) {
 
@@ -94,7 +94,7 @@ if (isset($_POST['register'])) {
         </select>
         </div>
 
-        <button type="submit" name="register" class="btn btn-primary">Register</button>
+        <button type="submit" name="register" class="buttonColor">Register</button>
     </form>
 </div>
 <script>

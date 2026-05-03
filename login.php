@@ -7,13 +7,18 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT u.*, r.roleName 
-            FROM users u
-            JOIN user_roles ur ON u.userID = ur.userID
-            JOIN roles r ON ur.roleID = r.roleID
-            WHERE u.email = '$email'";
+    $stmt = $conn->prepare("
+       SELECT u.*, r.roleName 
+       FROM users u
+       JOIN user_roles ur ON u.userID = ur.userID
+       JOIN roles r ON ur.roleID = r.roleID
+       WHERE u.email = ?
+    ");
 
-    $result = $conn->query($sql);
+    $stmt->bind_param("s", $email); // "s" = string
+    $stmt->execute();
+    $result = $stmt->get_result();
+
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
@@ -31,7 +36,7 @@ if (isset($_POST['login'])) {
                 JOIN roles r ON ur.roleID = r.roleID
                 WHERE ur.userID = $userID
             ")->fetch_assoc();
-
+            
             $role = $roleCheck['roleName'];
             if ($role == 'Doctor') {
 
