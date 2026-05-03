@@ -96,23 +96,30 @@ if (isset($_GET['cancel'])) {
             ?>
         </select>
 
-        <!-- SELECT DOCTOR -->
-        <select name="doctorID" class="form-control mb-2" required>
-            <option value="">Select Doctor</option>
-            <?php
-            $docs = $conn->query("
-                SELECT d.doctorID, u.userName 
-                FROM doctors d
-                JOIN users u ON d.userID = u.userID
-            ");
-            while ($d = $docs->fetch_assoc()) {
-                echo "<option value='{$d['doctorID']}'>{$d['userName']} (ID: {$d['doctorID']})</option>";
-            }
-            ?>
-        </select>
-
         <!-- DATE -->
         <input type="datetime-local" name="date" class="form-control mb-2" id="dateInput" required>
+
+        <select name="specialization" id="specialization" class="form-control mb-2">
+            <option value="">What does your pet need?</option>
+            <option value="General">General Checkup 🐾</option>
+            <option value="Skin">Skin Problems 🐶</option>
+            <option value="Surgery">Surgery 🏥</option>
+            <option value="Vaccination">Vaccination 💉</option>
+        </select>
+                <!-- SELECT DOCTOR -->
+        <select name="doctorID" id="doctorList" class="form-control mb-2" required>
+            <option value="">Select Doctor</option>
+            <?php
+            //$docs = $conn->query("
+            //    SELECT d.doctorID, u.userName 
+            //    FROM doctors d
+            //    JOIN users u ON d.userID = u.userID
+            //");
+            //while ($d = $docs->fetch_assoc()) {
+            //    echo "<option value='{$d['doctorID']}'>{$d['userName']} (ID: {$d['doctorID']})</option>";
+            //}
+            ?>
+        </select>
         <button type="submit" name="book" class="btn btn-success">Book Appointment</button>
     </form>
     <script>
@@ -201,5 +208,18 @@ if ($cancelled->num_rows > 0) {
     ?>
     
 </div>
+<script>
+document.getElementById("specialization").addEventListener("change", function () {
 
+    let spec = this.value;
+    console.log("Selected spec:", spec); // 🔥 ADD THIS
+    if (!spec) return;
+
+    fetch("getDoctors.php?spec=" + encodeURIComponent(spec))
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("doctorList").innerHTML = data;
+    });
+});
+</script>
 <?php include '../includes/footer.php'; ?>

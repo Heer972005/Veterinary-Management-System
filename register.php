@@ -32,31 +32,82 @@ if (isset($_POST['register'])) {
 
     // 🔥 IMPORTANT: If Doctor → insert into doctors table
     if ($role == 2) {
-        $conn->query("
-            INSERT INTO doctors(userID, specialization) 
-            VALUES($userID, 'General')
-        ");
+
+    $specialization = $_POST['specialization'];
+
+    // Default image
+    $photoPath = "uploads/doctors/default.png";
+
+    if (!empty($_FILES['photo']['name'])) {
+        $photoName = time() . "_" . $_FILES['photo']['name'];
+        $tmpName = $_FILES['photo']['tmp_name'];
+
+        $photoPath = "uploads/doctors/" . $photoName;
+
+        move_uploaded_file($tmpName, $photoPath);
     }
 
-    echo "<script>alert('Registered Successfully'); window.location='login.php';</script>";
+    $conn->query("
+        INSERT INTO doctors(userID, specialization, photo, status)
+        VALUES($userID, '$specialization', '$photoPath', 'Pending')
+        ");
+}
+
+    // echo "<script>alert('Registered Successfully'); window.location='login.php';</script>";
+    if ($role == 2) {
+    echo "<script>
+        alert('Doctor registration submitted. Wait for admin approval.');
+        window.location='login.php';
+    </script>";
+} else {
+    echo "<script>
+        alert('Registered Successfully');
+        window.location='login.php';
+    </script>";
+}
 }
 ?>
 <div class="container mt-5">
     <h2>Register</h2>
-
-    <form method="POST" id="registerForm">
+    <form method="POST" enctype="multipart/form-data" id="registerForm">
         <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
         <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
         <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
 
-        <select name="role" class="form-control mb-3">
+        <select name="role" id="role"class="form-control mb-3">
             <option value="1">Admin</option>
             <option value="2">Doctor</option>
             <option value="3">User</option>
         </select>
 
+        <!-- 🔥 DOCTOR PHOTO (HIDDEN INITIALLY) -->
+        <div id="doctorPhotoDiv" style="display:none;">
+            <input type="file" name="photo" class="form-control mb-3">
+        </div>
+
+        <div id="specializationDiv" style="display:none;">
+            <select name="specialization" class="form-control mb-3">
+                <option>General</option>
+                <option>Skin</option>
+                <option>Vaccination</option>
+                <option>Surgery</option>
+        </select>
+        </div>
+
         <button type="submit" name="register" class="btn btn-primary">Register</button>
     </form>
 </div>
+<script>
+document.getElementById("role").addEventListener("change", function () {
+    let role = this.value;
 
+    if (role == 2) { // Doctor
+        document.getElementById("doctorPhotoDiv").style.display = "block";
+        document.getElementById("specializationDiv").style.display = "block";
+    } else {
+        document.getElementById("doctorPhotoDiv").style.display = "none";
+        document.getElementById("specializationDiv").style.display = "none";
+    }
+});
+</script>
 <?php include 'includes/footer.php'; ?>

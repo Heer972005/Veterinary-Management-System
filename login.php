@@ -23,7 +23,29 @@ if (isset($_POST['login'])) {
             $_SESSION['userID'] = $user['userID'];
             $_SESSION['role'] = $user['roleName'];
             $_SESSION['name'] = $user['userName'];
+            // GET USER ROLE
+            $userID = $user['userID'];
+            $roleCheck = $conn->query("
+                SELECT r.roleName 
+                FROM user_roles ur
+                JOIN roles r ON ur.roleID = r.roleID
+                WHERE ur.userID = $userID
+            ")->fetch_assoc();
 
+            $role = $roleCheck['roleName'];
+            if ($role == 'Doctor') {
+
+            $doc = $conn->query("
+                SELECT status 
+                FROM doctors 
+                WHERE userID = $userID
+            ")->fetch_assoc();
+
+            if ($doc['status'] != 'Approved') {
+                echo "<script>alert('Your doctor account is pending approval'); window.location='login.php';</script>";
+                exit();
+            }
+}
             // Redirect based on role
             if ($user['roleName'] == 'Admin') {
                 header("Location: admin/dashboard.php");
