@@ -135,7 +135,9 @@ if (isset($_POST['addCart'])) {
         $condition = "WHERE " . implode(" AND ", $where);
     }
 
-    $products = $conn->query("SELECT * FROM products $condition $order");
+    $products = $conn->query("SELECT p.*, i.quantity AS stock
+                            FROM products p
+                            LEFT JOIN inventory i ON p.productID = i.productID");
     ?>
 
     <!-- ================= PRODUCTS ================= -->

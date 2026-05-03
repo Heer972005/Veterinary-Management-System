@@ -41,12 +41,13 @@ while ($i = $items->fetch_assoc()) {
         VALUES($orderID, {$i['productID']}, {$i['quantity']}, 0)
     ");
 
-    // 🔥 REDUCE STOCK
-    $conn->query("
-        UPDATE products 
-        SET stock = stock - {$i['quantity']}
-        WHERE productID = {$i['productID']}
-    ");
+    //  REDUCE STOCK
+    // $conn->query("
+    //     UPDATE products 
+    //     SET stock = stock - {$i['quantity']}
+    //     WHERE productID = {$i['productID']}
+    // ");
+    //added trigger in database to handle stock reduction
 }
 // Clear cart
 $conn->query("DELETE FROM cart_items WHERE cartID=$cartID");

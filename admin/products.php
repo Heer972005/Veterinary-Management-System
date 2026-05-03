@@ -13,9 +13,15 @@ if (isset($_POST['add'])) {
     $catID = $_POST['catID'];
 
     $conn->query("
-        INSERT INTO products(proName, catID, price, stock)
-        VALUES('$name', $catID, $price, $stock)
-    ");
+    INSERT INTO products(proName, catID, price)
+    VALUES('$name', $catID, $price)
+");
+
+$productID = $conn->insert_id;
+$conn->query("
+    INSERT INTO inventory(productID, quantity)
+    VALUES($productID, $stock)
+");
     echo "<script>alert('Product Added'); window.location='products.php';</script>";
 }
 
@@ -26,13 +32,14 @@ if (isset($_POST['update'])) {
     $newStock = $_POST['newStock'];
 
     $conn->query("
-        UPDATE products 
-        SET stock = $newStock 
-        WHERE productID = $id
+    UPDATE inventory 
+    SET quantity = $newStock 
+    WHERE productID = $id
     ");
 
     echo "<script>alert('Stock Updated'); window.location='products.php';</script>";
 }
+
 ?>
 
 <div class="container mt-5">
@@ -66,10 +73,12 @@ if (isset($_POST['update'])) {
 
     <?php
     $result = $conn->query("
-        SELECT p.*, c.catName 
-        FROM products p
-        JOIN categories c ON p.catID = c.catID
+        SELECT p.*, c.catName, i.quantity AS stock
+FROM products p
+JOIN categories c ON p.catID = c.catID
+LEFT JOIN inventory i ON p.productID = i.productID
     ");
+    
     while ($row = $result->fetch_assoc()) {
         echo "
         <div class='card p-3 mb-2'>

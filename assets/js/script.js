@@ -34,3 +34,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".loader").style.display = "none";
     }, 1000); // 1 second delay
 });
+
+

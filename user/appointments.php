@@ -14,7 +14,7 @@ $reminder = $conn->query("
     WHERE p.userID = $userID
     AND a.appointmentStatus = 'Pending'
     AND a.reminderSent = 0
-    AND a.appointmentDate BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+    AND a.appointmentDate BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 1 MINUTE)
 ");
 
 while ($r = $reminder->fetch_assoc()) {
@@ -101,10 +101,10 @@ if (isset($_GET['cancel'])) {
             <option value="">Select Doctor</option>
             <?php
             $docs = $conn->query("
-    SELECT d.doctorID, u.userName 
-    FROM doctors d
-    JOIN users u ON d.userID = u.userID
-");
+                SELECT d.doctorID, u.userName 
+                FROM doctors d
+                JOIN users u ON d.userID = u.userID
+            ");
             while ($d = $docs->fetch_assoc()) {
                 echo "<option value='{$d['doctorID']}'>{$d['userName']} (ID: {$d['doctorID']})</option>";
             }
