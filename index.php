@@ -1,34 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PetCare System</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/index.css">
-</head>
-
-<body>
 <?php include 'config/db.php'; ?>
-<!--  NAVBAR -->
-<nav class="navbar navbar-expand-lg custom-navbar px-3">
-    
-    <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="assets/images/logo1.png" class="logo-img">
-    </a>
-
-    <!-- Right side buttons -->
-    <div class="ms-auto">
-        <a href="register.php" class="btn btn-dark btn-sm me-2">REGISTER</a>
-        <a href="login.php" class="btn btn-dark btn-sm me-2">LOGIN</a>
-        <a href="user/shop.php" class="btn btn-dark btn-sm me-2">SHOP</a>
-        <button onclick="toggleTheme()" class="btn btn-warning btn-sm">🌙</button>
-    </div>
-
-</nav>
-
+<?php include 'includes/header.php'; ?>
 <!--  HERO CAROUSEL -->
 <div class="hero-section py-5">
     <div class="container">
@@ -56,7 +27,7 @@
 
      <div class="col-md-6">
 
-    <!-- 🔝 UNIQUE SECTION -->
+    <!-- UNIQUE SECTION -->
     <div class="unique-box p-4 mb-4">
         <h5> Why Choose PetCare?</h5>
 
@@ -106,7 +77,7 @@
         </div>
     </div>
 </div>
-<!-- 🔥 SERVICES -->
+<!--  SERVICES -->
  <div class="container section">
     <h2 class="text-center mb-4">Our Services</h2>
 
@@ -139,11 +110,11 @@
     </div>
 </div>
 
-<!-- 🔥 TEAM -->
+<!-- TEAM -->
 <div class="container section">
     <h2 class="text-center">Meet Our Team 👨‍⚕️</h2>
 
-    <div class="row mt-4">
+    <div class="row mt-4 pt-3 g-4">
 
         <?php
         $docs = $conn->query("
@@ -172,7 +143,7 @@
     </div>
 </div>
 
-<!-- 🔥 TESTIMONIALS -->
+<!-- TESTIMONIALS -->
 <div class="container section">
     <h2 class="text-center mb-4">Why Pet Owners Trust Us ❤️</h2>
 
@@ -224,15 +195,15 @@
         <div class="col-md-6">
 
             <div class="stat-card mb-3">
-                🐶 500+ Happy Pets Treated
+                 500+ Happy Pets Treated
             </div>
 
             <div class="stat-card mb-3">
-                👨‍⚕️ Certified & Verified Doctors
+                 Certified & Verified Doctors
             </div>
 
             <div class="stat-card mb-3">
-                ⏱️ Fast & Easy Online Booking
+                 Fast & Easy Online Booking
             </div>
 
             <div class="info-box mt-3">
@@ -245,9 +216,9 @@
 
     </div>
 </div>
-<!-- 🔥 KNOW YOUR PET -->
+<!--  KNOW YOUR PET -->
 <!-- <div class="container section">
-    <h2 class="text-center">Know Your Pet 🐶</h2>
+    <h2 class="text-center">Know Your Pet </h2>
 
     <form method="POST" class="mt-4 text-center">
         <input type="text" name="pet" placeholder="Pet Name" class="form-control mb-2" required>
@@ -259,26 +230,26 @@
     //if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //    $pet = $_POST['pet'];
     //    echo "<div class='alert alert-info mt-3 text-center'>
-    //    😂 $pet is 90% cute, 10% chaos!
-    //    Loves food and attention 🐾
+    //     $pet is 90% cute, 10% chaos!
+    //    Loves food and attention 
     //    </div>";
     //}
     //?>
 </div> -->
 
-<!-- 🔥 PET IMAGE FUN (PLACEHOLDER) -->
+<!--  PET IMAGE FUN (PLACEHOLDER) -->
 <!-- <div class="container section text-center">
-    <h2>Fun With Your Pet 📸</h2>
+    <h2>Fun With Your Pet </h2>
 
     <form method="POST" enctype="multipart/form-data">
         <input type="file" class="form-control mb-2">
         <button class="btn btn-success">Upload & Generate</button>
     </form>
 
-    <p class="mt-3">Coming soon: AI pet transformations 😎</p>
+    <p class="mt-3">Coming soon: AI pet transformations </p>
 </div> -->
 
-<!-- 🔥 MAP -->
+<!-- MAP -->
 <div class="container section">
     <h2 class="text-center">Find Us 📍</h2>
 
@@ -288,15 +259,9 @@
     </iframe>
 </div>
 
-<!-- 🔥 FOOTER -->
-<footer class="bg-dark text-white text-center p-4">
-    <p>© 2026 PetCare System</p>
-    <p>
-        Instagram | LinkedIn | Website
-    </p>
-</footer>
 
-<!-- 🔥 JS -->
+
+<!-- JS -->
 <script>
 function toggleTheme() {
     document.body.classList.toggle("dark");
@@ -308,6 +273,4 @@ window.onload = function () {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>

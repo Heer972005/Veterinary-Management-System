@@ -3,7 +3,7 @@ include '../includes/auth.php';
 include '../config/db.php';
 include '../includes/header.php'; 
 
-// ================= GET doctorID =================
+// GET doctorID
 $userID = $_SESSION['userID'];
 
 $doc = $conn->query("SELECT doctorID FROM doctors WHERE userID = $userID");
@@ -17,11 +17,11 @@ $doctor = $doc->fetch_assoc();
 $doctorID = $doctor['doctorID'];
 
 
-// ================= DATE FILTER =================
+// DATE FILTER
 $date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
 
-// ================= APPOINTMENTS =================
+// APPOINTMENTS
 $stats = $conn->query("
     SELECT 
         COUNT(*) AS total,
@@ -33,7 +33,7 @@ $stats = $conn->query("
 ")->fetch_assoc();
 
 
-// ================= TOTAL REVENUE =================
+// TOTAL REVENUE
 $revenue = $conn->query("
     SELECT SUM(totalAmt) AS totalRevenue
     FROM orders
@@ -41,7 +41,7 @@ $revenue = $conn->query("
 ")->fetch_assoc();
 
 
-// ================= MEDICINE REVENUE =================
+// MEDICINE REVENUE
 $med = $conn->query("
     SELECT SUM(oi.quantity * p.price) AS medRevenue
     FROM orderItems oi
@@ -51,7 +51,7 @@ $med = $conn->query("
 ")->fetch_assoc();
 
 
-// ================= STOCK USED =================
+// STOCK USED
 $stock = $conn->query("
     SELECT SUM(oi.quantity) AS totalSold
     FROM orderItems oi
@@ -61,7 +61,7 @@ $stock = $conn->query("
 ?>
 
 <div class="container mt-5">
-    <h2>📊 Doctor Daily Report</h2>
+    <h2>Doctor Daily Report</h2>
 
     <!-- DATE FILTER -->
     <form method="GET" class="mb-4">

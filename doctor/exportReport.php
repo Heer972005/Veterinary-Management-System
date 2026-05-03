@@ -2,20 +2,20 @@
 include '../includes/auth.php';
 include '../config/db.php';
 
-// ================= GET DOCTOR =================
+// GET DOCTOR
 $userID = $_SESSION['userID'];
 
 $doc = $conn->query("SELECT doctorID FROM doctors WHERE userID = $userID")->fetch_assoc();
 $doctorID = $doc['doctorID'];
 
-// ================= DATE =================
+// DATE
 $date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
-// ================= HEADERS =================
+// HEADERS
 header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=Doctor_Report_$date.xls");
 
-// ================= DATA =================
+// DATA
 echo "Doctor Daily Report\n";
 echo "Date: $date\n\n";
 

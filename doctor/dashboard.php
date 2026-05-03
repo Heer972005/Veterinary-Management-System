@@ -5,10 +5,10 @@ include '../includes/header.php';
 ?>
 
 <div class="container mt-5">
-    <h2>Doctor Dashboard 👨‍⚕️</h2>
+    <h2>Doctor Dashboard </h2>
 
 <?php
-// ================= GET doctorID FROM userID =================
+//  GET doctorID FROM userID
 $doctorUserID = $_SESSION['userID'];
 
 $doc = $conn->query("SELECT doctorID FROM doctors WHERE userID = $doctorUserID");
@@ -22,7 +22,7 @@ $doctor = $doc->fetch_assoc();
 $doctorID = $doctor['doctorID'];
 ?>
 
-<!-- ================= PENDING ================= -->
+<!-- PENDING -->
 <h4 class="mt-4">Pending Appointments</h4>
 
 <?php
@@ -53,7 +53,7 @@ if ($pending->num_rows > 0) {
 }
 ?>
 
-<!-- ================= COMPLETED ================= -->
+<!-- COMPLETED -->
 <h4 class="mt-4">Completed Appointments</h4>
 
 <?php

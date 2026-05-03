@@ -8,7 +8,7 @@ include '../includes/header.php';
     require '../PHPMailer-master/PHPMailer-master/src/Exception.php';
     require '../PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
     require '../PHPMailer-master/PHPMailer-master/src/SMTP.php';
-// 🔐 ADMIN CHECK
+// ADMIN CHECK
 $userID = $_SESSION['userID'];
 
 $roleCheck = $conn->query("
@@ -19,13 +19,13 @@ $roleCheck = $conn->query("
 ")->fetch_assoc();
 
 if ($roleCheck['roleName'] != 'Admin') {
-    die("Access Denied ❌");
+    die("Access Denied");
 }
 
-// ================= APPROVE LOGIC =================
+// APPROVE LOGIC
 if (isset($_GET['approve'])) {
 
-    $id = (int)$_GET['approve']; // 🔐 secure
+    $id = (int)$_GET['approve']; // secure
 
     // UPDATE STATUS
     $conn->query("
@@ -42,7 +42,7 @@ if (isset($_GET['approve'])) {
         WHERE d.doctorID = $id
     ")->fetch_assoc();
 
-    // ================= EMAIL SETUP =================
+    // EMAIL SETUP
 
     $mail = new PHPMailer(true);
 
@@ -50,8 +50,8 @@ if (isset($_GET['approve'])) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'heermehta.126700@marwadiuniversity.ac.in'; // 🔴 change
-        $mail->Password = 'xwie orxh wdcz obav';    // 🔴 change
+        $mail->Username = 'heermehta.126700@marwadiuniversity.ac.in'; // change
+        $mail->Password = 'xwie orxh wdcz obav';    // change
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
@@ -59,10 +59,10 @@ if (isset($_GET['approve'])) {
 
         $mail->addAddress($user['email'], $user['userName']);
         $mail->isHTML(true);
-        $mail->Subject = "Doctor Approved 🎉";
+        $mail->Subject = "Doctor Approved";
 
         $mail->Body = "
-            <h2>Congratulations Dr. {$user['userName']} 👨‍⚕️</h2>
+            <h2>Congratulations Dr. {$user['userName']} </h2>
             <p>Your doctor account has been <b>approved</b>.</p>
             <p>You can now login and start managing appointments.</p>
             <br>
@@ -79,7 +79,7 @@ if (isset($_GET['approve'])) {
     echo "<script>alert('Doctor Approved & Email Sent'); window.location='approveDocs.php';</script>";
 }
 
-// ================= FETCH PENDING DOCTORS =================
+// FETCH PENDING DOCTORS
 $docs = $conn->query("
     SELECT d.*, u.userName 
     FROM doctors d
@@ -89,7 +89,7 @@ $docs = $conn->query("
 ?>
 
 <div class="container mt-5">
-    <h2>Approve Doctors 👨‍⚕️</h2>
+    <h2>Approve Doctors </h2>
 
     <?php if ($docs->num_rows > 0): ?>
         <?php while ($d = $docs->fetch_assoc()): ?>
@@ -112,7 +112,7 @@ $docs = $conn->query("
 
         <?php endwhile; ?>
     <?php else: ?>
-        <p>No pending doctors ✅</p>
+        <p>No pending doctors</p>
     <?php endif; ?>
 </div>
 

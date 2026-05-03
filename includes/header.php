@@ -6,8 +6,7 @@
     <title>PetCare System</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
 
@@ -17,22 +16,19 @@
     </video>
     <h2>Loading...</h2>
 </div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/index.php">🐾 PetCare</a>
+<nav class="navbar navbar-expand-lg custom-navbar px-3">
+    
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="assets/images/logo1.png" class="logo-img">
+    </a>
 
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="nav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/user/shop.php">Shop</a></li>
-                <li class="nav-item"><a class="nav-link" href="/user/appointments.php">Appointments</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login.php">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/user/pets.php">My Pets</a></li>
-            </ul>
-        </div>
-        
+    <!-- Right side buttons -->
+    <div class="ms-auto">
+        <a href="register.php" class="btn btn-dark btn-sm me-2 ">REGISTER</a>
+        <a href="login.php" class="btn btn-dark btn-sm me-2">LOGIN</a>
+        <a href="user/shop.php" class="btn btn-dark btn-sm me-2">SHOP</a>
+        <button onclick="toggleTheme()" class="btn btn-warning btn-sm">🌙</button>
     </div>
+
 </nav>

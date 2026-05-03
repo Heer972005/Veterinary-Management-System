@@ -1,6 +1,5 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'config/db.php'; ?>
-<link rel="stylesheet" href="assets/css/index.css">
 <?php
 if (isset($_POST['register'])) {
 
@@ -30,7 +29,7 @@ if (isset($_POST['register'])) {
         VALUES($userID, $role)
     ");
 
-    // 🔥 IMPORTANT: If Doctor → insert into doctors table
+    // IMPORTANT: If Doctor → insert into doctors table
     if ($role == 2) {
 
     $specialization = $_POST['specialization'];
@@ -80,7 +79,7 @@ if (isset($_POST['register'])) {
             <option value="3">User</option>
         </select>
 
-        <!-- 🔥 DOCTOR PHOTO (HIDDEN INITIALLY) -->
+        <!-- DOCTOR PHOTO (HIDDEN INITIALLY) -->
         <div id="doctorPhotoDiv" style="display:none;">
             <input type="file" name="photo" class="form-control mb-3">
         </div>
@@ -93,8 +92,11 @@ if (isset($_POST['register'])) {
                 <option>Surgery</option>
         </select>
         </div>
-
-        <button type="submit" name="register" class="buttonColor">Register</button>
+        <button type="submit" name="register" class="paw-shape mt-3">
+            <span class="inner-pad"></span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register</span>
+        </button>
+        <!-- <button type="submit" name="register" class="buttonColor">Register</button> -->
     </form>
 </div>
 <script>

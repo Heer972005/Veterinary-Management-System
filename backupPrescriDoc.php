@@ -38,7 +38,7 @@ if (isset($_POST['save'])) {
         WHERE appointmentID = $appointmentID
     ");
 
-    // ================= EMAIL START =================
+    // EMAIL START
 
     $user = $conn->query("
         SELECT u.email, u.userName, p.petName
@@ -85,14 +85,14 @@ if (isset($_POST['save'])) {
         echo "<script>alert('Prescription saved but email failed'); window.location='dashboard.php';</script>";
     }
 
-    // ================= EMAIL END =================
+    // EMAIL END
 }
 ?>
 
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h2>Add Prescription 💊</h2>
+    <h2>Add Prescription </h2>
 
     <form method="POST">
 

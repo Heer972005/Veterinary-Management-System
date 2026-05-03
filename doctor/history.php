@@ -1,7 +1,7 @@
 <?php
 include '../config/db.php';
 
-// ✅ Check parameter
+// Check parameter
 if (!isset($_GET['pet'])) {
     echo "<h3>No pet selected</h3>";
     exit();
@@ -9,7 +9,7 @@ if (!isset($_GET['pet'])) {
 
 $petID = $_GET['pet'];
 
-// ✅ Query
+// Query
 $result = $conn->query("
     SELECT * FROM appointments 
     WHERE petID = $petID 

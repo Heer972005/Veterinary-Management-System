@@ -43,7 +43,7 @@ if (isset($_POST['update'])) {
 ?>
 
 <div class="container mt-5">
-    <h2>Manage Products 📦</h2>
+    <h2>Manage Products</h2>
 
     <!-- ADD PRODUCT -->
 <form method="POST" class="mb-4">

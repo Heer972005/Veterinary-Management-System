@@ -1,5 +1,8 @@
-<footer class="bg-dark text-white text-center p-3 mt-5">
+<footer class="bg-dark text-white text-center p-4">
     <p>© 2026 PetCare System</p>
+    <p>
+        Instagram | LinkedIn | Website
+    </p>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

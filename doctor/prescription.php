@@ -42,7 +42,7 @@ if (isset($_POST['save'])) {
         WHERE appointmentID = $appointmentID
     ");
 
-    // ================= EMAIL START =================
+    // EMAIL START
 
 
     $mail = new PHPMailer(true);
@@ -52,8 +52,8 @@ if (isset($_POST['save'])) {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
 
-        $mail->Username = 'heermehta.126700@marwadiuniversity.ac.in'; // 🔴 CHANGE
-        $mail->Password = 'xwie orxh wdcz obav';   // 🔴 CHANGE
+        $mail->Username = 'heermehta.126700@marwadiuniversity.ac.in'; // CHANGE
+        $mail->Password = 'xwie orxh wdcz obav';   // CHANGE
 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
@@ -102,13 +102,13 @@ if (isset($_POST['save'])) {
         echo "<script>alert('Saved but Email failed: {$mail->ErrorInfo}'); window.location='dashboard.php';</script>";
     }
 
-    // ================= EMAIL END =================
+    // EMAIL END
 }
 ?>
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h2>Add Prescription 💊</h2>
+    <h2>Add Prescription </h2>
 
     <form method="POST">
 
