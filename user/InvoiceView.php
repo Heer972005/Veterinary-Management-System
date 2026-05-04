@@ -1,4 +1,4 @@
-<?php 
+<?php
 include '../includes/auth.php';
 include '../config/db.php';
 include '../includes/header.php';
@@ -23,7 +23,7 @@ $items = $conn->query("
 ?>
 
 <div class="container mt-5">
-    <h2>Invoice 🧾</h2>
+    <h2>Invoice</h2>
 
     <p><b>Order ID:</b> <?= $order['orderID'] ?></p>
     <p><b>Name:</b> <?= $order['userName'] ?></p>
@@ -36,12 +36,12 @@ $items = $conn->query("
             <th>Price</th>
         </tr>
 
-        <?php while($i = $items->fetch_assoc()) { ?>
-        <tr>
-            <td><?= $i['proName'] ?></td>
-            <td><?= $i['quantity'] ?></td>
-            <td><?= $i['price'] ?></td>
-        </tr>
+        <?php while ($i = $items->fetch_assoc()) { ?>
+            <tr>
+                <td><?= $i['proName'] ?></td>
+                <td><?= $i['quantity'] ?></td>
+                <td><?= $i['price'] ?></td>
+            </tr>
         <?php } ?>
     </table>
 

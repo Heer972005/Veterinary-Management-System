@@ -1,4 +1,5 @@
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/nav.php'; ?>
 <?php include 'config/db.php'; ?>
 
 <main class="flex-grow-1">

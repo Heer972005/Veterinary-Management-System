@@ -7,7 +7,7 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // ✅ Prepared statement
+    // Prepared statement
     $stmt = $conn->prepare("
         SELECT u.*, r.roleName 
         FROM users u
@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
 
         $user = $result->fetch_assoc();
 
-        // ✅ Password check
+        // Password check
         if (password_verify($password, $user['password'])) {
 
             $_SESSION['userID'] = $user['userID'];
@@ -33,7 +33,7 @@ if (isset($_POST['login'])) {
 
             $userID = (int)$user['userID'];
 
-            // ================= DOCTOR APPROVAL =================
+            // DOCTOR APPROVAL
             if ($user['roleName'] == 'Doctor') {
 
                 $doc = $conn->query("
@@ -61,7 +61,7 @@ if (isset($_POST['login'])) {
                 }
             }
 
-            // ================= REDIRECT BACK =================
+            // REDIRECT BACK
             if (isset($_SESSION['redirect_after_login'])) {
                 $redirect = $_SESSION['redirect_after_login'];
                 unset($_SESSION['redirect_after_login']);
@@ -69,7 +69,7 @@ if (isset($_POST['login'])) {
                 exit();
             }
 
-            // ================= DEFAULT REDIRECT =================
+            // DEFAULT REDIRECT 
             if ($user['roleName'] == 'Admin') {
                 header("Location: admin/dashboard.php");
                 exit();
@@ -92,6 +92,7 @@ if (isset($_POST['login'])) {
 ?>
 
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/nav.php'; ?>
 
 <main class="flex-grow-1 d-flex align-items-center justify-content-center">
 

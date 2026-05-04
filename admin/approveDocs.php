@@ -72,7 +72,7 @@ if (isset($_GET['approve'])) {
         $mail->send();
 
     } catch (Exception $e) {
-        // optional: log error
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 
     // REDIRECT AFTER EVERYTHING

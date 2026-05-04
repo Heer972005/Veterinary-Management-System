@@ -1,10 +1,10 @@
-<?php  
+<?php
 include '../config/db.php';
-include '../includes/header.php'; 
+include '../includes/header.php';
 ?>
 
 <?php
-// ================= ADD TO CART =================
+// ADD TO CART
 if (isset($_POST['addCart'])) {
 
     $userID = $_SESSION['userID'];
@@ -46,9 +46,9 @@ if (isset($_POST['addCart'])) {
 ?>
 
 <div class="container mt-5">
-    <h2>Pet Shop 🛒</h2>
+    <h2>Pet Shop</h2>
 
-    <!-- ================= FILTER FORM ================= -->
+    <!--  FILTER FORM -->
     <form method="GET" class="row mb-4">
 
         <!-- CATEGORY -->
@@ -69,22 +69,22 @@ if (isset($_POST['addCart'])) {
         <!-- MIN PRICE -->
         <div class="col-md-2">
             <input type="number" name="min" placeholder="Min Price" class="form-control"
-                   value="<?php echo $_GET['min'] ?? ''; ?>">
+                value="<?php echo $_GET['min'] ?? ''; ?>">
         </div>
 
         <!-- MAX PRICE -->
         <div class="col-md-2">
             <input type="number" name="max" placeholder="Max Price" class="form-control"
-                   value="<?php echo $_GET['max'] ?? ''; ?>">
+                value="<?php echo $_GET['max'] ?? ''; ?>">
         </div>
 
         <!-- SORT -->
         <div class="col-md-3">
             <select name="sort" class="form-control">
                 <option value="">Sort By</option>
-                <option value="low" <?= ($_GET['sort'] ?? '')=='low' ? 'selected' : '' ?>>Price Low → High</option>
-                <option value="high" <?= ($_GET['sort'] ?? '')=='high' ? 'selected' : '' ?>>Price High → Low</option>
-                <option value="name" <?= ($_GET['sort'] ?? '')=='name' ? 'selected' : '' ?>>Name A → Z</option>
+                <option value="low" <?= ($_GET['sort'] ?? '') == 'low' ? 'selected' : '' ?>>Price Low → High</option>
+                <option value="high" <?= ($_GET['sort'] ?? '') == 'high' ? 'selected' : '' ?>>Price High → Low</option>
+                <option value="name" <?= ($_GET['sort'] ?? '') == 'name' ? 'selected' : '' ?>>Name A → Z</option>
             </select>
         </div>
 
@@ -95,7 +95,7 @@ if (isset($_POST['addCart'])) {
 
     </form>
 
-    <!-- ================= QUERY LOGIC ================= -->
+    <!-- QUERY LOGIC -->
     <?php
     $where = [];
     $order = "";
@@ -139,31 +139,31 @@ if (isset($_POST['addCart'])) {
                             LEFT JOIN inventory i ON p.productID = i.productID");
     ?>
 
-    <!-- ================= PRODUCTS ================= -->
+    <!-- PRODUCTS -->
     <div class="row">
         <?php
         if ($products->num_rows > 0) {
             while ($p = $products->fetch_assoc()) {
-        ?>
-            <div class="col-md-4">
-                <div class="card p-3 mb-3 shadow">
+                ?>
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow">
 
-                    <h5><?php echo $p['proName']; ?></h5>
-                    <p>₹<?php echo $p['price']; ?></p>
+                        <h5><?php echo $p['proName']; ?></h5>
+                        <p>₹<?php echo $p['price']; ?></p>
 
-                    <?php if ($p['stock'] <= 0) { ?>
-                        <button class="btn btn-secondary w-100" disabled>Out of Stock</button>
-                    <?php } else { ?>
-                        <form method="POST">
-                            <input type="hidden" name="productID" value="<?php echo $p['productID']; ?>">
-                            <input type="number" name="qty" value="1" min="1" class="form-control mb-2">
-                            <button name="addCart" class="btn btn-success w-100">Add to Cart</button>
-                        </form>
-                    <?php } ?>
+                        <?php if ($p['stock'] <= 0) { ?>
+                            <button class="btn btn-secondary w-100" disabled>Out of Stock</button>
+                        <?php } else { ?>
+                            <form method="POST">
+                                <input type="hidden" name="productID" value="<?php echo $p['productID']; ?>">
+                                <input type="number" name="qty" value="1" min="1" class="form-control mb-2">
+                                <button name="addCart" class="btn btn-success w-100">Add to Cart</button>
+                            </form>
+                        <?php } ?>
 
+                    </div>
                 </div>
-            </div>
-        <?php 
+                <?php
             }
         } else {
             echo "<p>No products found.</p>";

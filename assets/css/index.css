@@ -36,10 +36,9 @@ body.dark .custom-navbar {
 }
 /* 
  Navbar styling */
- body {
-     padding-top: 80px;
-     /* adjust based on navbar height */
- }
+body.has-navbar {
+    padding-top: 50px;
+}
 .custom-navbar {
     background: #549695;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -48,8 +47,8 @@ body.dark .custom-navbar {
     left: 0;
     width: 100%;
     z-index: 1000;
-        display: flex;
-            align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 /*  Bigger logo */
@@ -287,7 +286,19 @@ body.dark .custom-navbar {
     line-height: 1.6;
 }
 
+/* Registration and Login */
+.register-card {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
 
+body.dark .register-card {
+    background: #1e1e1e;
+    color: white;
+}
 .paw-shape {
     width: 60px;
     height: 60px;
@@ -347,6 +358,8 @@ body.dark .custom-navbar {
     transform: translate(-50%, -50%);
     z-index: 1;
 } */
+
+
  .loader {
      position: fixed;
      top: 0;

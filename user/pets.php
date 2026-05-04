@@ -1,7 +1,7 @@
-<?php 
-include '../includes/auth.php'; 
+<?php
+include '../includes/auth.php';
 include '../config/db.php';
-include '../includes/header.php'; 
+include '../includes/header.php';
 ?>
 
 <?php
@@ -10,7 +10,7 @@ if (isset($_POST['addPet'])) {
     $petName = $_POST['petName'];
     $species = $_POST['species'];
     $breed = $_POST['breed'];
-    $dob = $_POST['dob'];   // ✅ NEW
+    $dob = $_POST['dob'];
     $gender = $_POST['gender'];
     $userID = $_SESSION['userID'];
 
@@ -23,18 +23,18 @@ if (isset($_POST['addPet'])) {
 }
 ?>
 
-<div class="container mt-5">
-    <h2>My Pets 🐾</h2>
+<div class="container mt-2">
+    <h2>My Pets</h2>
 
     <!-- ADD PET FORM -->
     <form method="POST" class="mb-4">
         <input type="text" name="petName" class="form-control mb-2" placeholder="Pet Name" required>
-        
+
         <input type="text" name="species" class="form-control mb-2" placeholder="Species (Dog, Cat)" required>
-        
+
         <input type="text" name="breed" class="form-control mb-2" placeholder="Breed">
-        
-        <!-- ✅ DATE OF BIRTH -->
+
+        <!-- DATE OF BIRTH -->
         <input type="date" name="dob" class="form-control mb-2" max="<?php echo date('Y-m-d'); ?>" required>
         <input type="text" id="ageDisplay" class="form-control mb-2" placeholder="Age will appear here" readonly>
         <select name="gender" class="form-control mb-2">
@@ -57,39 +57,39 @@ if (isset($_POST['addPet'])) {
         ");
 
         while ($row = $result->fetch_assoc()) {
-        ?>
+            ?>
             <div class="col-md-4">
                 <div class="card p-3 shadow">
                     <h5><?php echo $row['petName']; ?></h5>
                     <p>Species: <?php echo $row['species']; ?></p>
                     <p>Breed: <?php echo $row['breed']; ?></p>
-                    
-                    <!-- ✅ CALCULATED AGE -->
+
+                    <!--  CALCULATED AGE -->
                     <p>Age: <?php echo $row['age']; ?> years</p>
-                    
                     <p>Gender: <?php echo $row['gender']; ?></p>
+                    <a href="editPet.php?id=<?php echo $row['petID']; ?>" class="btn btn-warning btn-sm mt-2">Edit</a>
                 </div>
             </div>
         <?php } ?>
     </div>
 </div>
 <script>
-document.querySelector("input[name='dob']").addEventListener("change", function () {
-    const dob = new Date(this.value);
-    const today = new Date();
+    document.querySelector("input[name='dob']").addEventListener("change", function () {
+        const dob = new Date(this.value);
+        const today = new Date();
 
-    if (!this.value) return;
+        if (!this.value) return;
 
-    let years = today.getFullYear() - dob.getFullYear();
-    let months = today.getMonth() - dob.getMonth();
+        let years = today.getFullYear() - dob.getFullYear();
+        let months = today.getMonth() - dob.getMonth();
 
-    if (months < 0 || (months === 0 && today.getDate() < dob.getDate())) {
-        years--;
-        months += 12;
-    }
+        if (months < 0 || (months === 0 && today.getDate() < dob.getDate())) {
+            years--;
+            months += 12;
+        }
 
-    document.getElementById("ageDisplay").value = 
-        years + " years " + months + " months";
-});
+        document.getElementById("ageDisplay").value =
+            years + " years " + months + " months";
+    });
 </script>
 <?php include '../includes/footer.php'; ?>

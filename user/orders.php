@@ -1,11 +1,11 @@
-<?php 
-include '../includes/auth.php'; 
+<?php
+include '../includes/auth.php';
 include '../config/db.php';
-include '../includes/header.php'; 
+include '../includes/header.php';
 ?>
-    
+
 <div class="container mt-5">
-    <h2>My Orders 📦</h2>
+    <h2>My Orders</h2>
 
     <?php
     $userID = $_SESSION['userID'];
@@ -20,7 +20,7 @@ include '../includes/header.php';
               </div>";
         echo "<a href='invoiceView.php?id={$o['orderID']}' class='btn btn-info'>View Invoice</a>";
     }
-    
+
     ?>
 </div>
 

@@ -1,7 +1,5 @@
-
-
-<?php 
-include '../includes/auth.php'; 
+<?php
+include '../includes/auth.php';
 include '../config/db.php';
 
 $appointmentID = $_GET['id'];
@@ -52,7 +50,7 @@ if (isset($_POST['save'])) {
     $subject = "Pet Prescription Details";
 
     // HTML headers
-    $headers  = "MIME-Version: 1.0\r\n";
+    $headers = "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=UTF-8\r\n";
     $headers .= "From: vetclinic@gmail.com\r\n";
 
@@ -75,11 +73,11 @@ if (isset($_POST['save'])) {
     }
 
     $message .= "</ul>";
-    $message .= "<p>Thank you for visiting our clinic 🐾</p>";
+    $message .= "<p>Thank you for visiting our clinic</p>";
     $message .= "</body></html>";
 
     // Send email
-    if(mail($to, $subject, $message, $headers)){
+    if (mail($to, $subject, $message, $headers)) {
         echo "<script>alert('Prescription saved + email sent'); window.location='dashboard.php';</script>";
     } else {
         echo "<script>alert('Prescription saved but email failed'); window.location='dashboard.php';</script>";

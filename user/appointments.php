@@ -19,14 +19,14 @@ $reminder = $conn->query("
 
 while ($r = $reminder->fetch_assoc()) {
 
-    // 🔔 SHOW ALERT (for demo)
+    //  SHOW ALERT (for demo)
     echo "<script>
         alert('Reminder: Appointment for {$r['petName']} within 1 hour!');
     </script>";
 
-    // 👉 OPTIONAL: SEND EMAIL/SMS HERE
+    //  OPTIONAL: SEND EMAIL/SMS HERE
 
-    // ✅ Mark as sent
+    //  Mark as sent
     $conn->query("
         UPDATE appointments 
         SET reminderSent = 1 
@@ -41,7 +41,7 @@ if (isset($_POST['book'])) {
     $doctorID = $_POST['doctorID'];
     $date = $_POST['date'];
 
-    // 🔍 Check if doctor already booked at same time
+    //  Check if doctor already booked at same time
     $check = $conn->query("
     SELECT * FROM appointments 
     WHERE doctorID = $doctorID 
@@ -80,7 +80,7 @@ if (isset($_GET['cancel'])) {
 ?>
 
 <div class="container mt-5">
-    <h2>Book Appointment 📅</h2>
+    <h2>Book Appointment</h2>
 
     <form method="POST">
 
@@ -101,10 +101,10 @@ if (isset($_GET['cancel'])) {
 
         <select name="specialization" id="specialization" class="form-control mb-2">
             <option value="">What does your pet need?</option>
-            <option value="General">General Checkup 🐾</option>
-            <option value="Skin">Skin Problems 🐶</option>
-            <option value="Surgery">Surgery 🏥</option>
-            <option value="Vaccination">Vaccination 💉</option>
+            <option value="General">General Checkup </option>
+            <option value="Skin">Skin Problems </option>
+            <option value="Surgery">Surgery </option>
+            <option value="Vaccination">Vaccination </option>
         </select>
                 <!-- SELECT DOCTOR -->
         <select name="doctorID" id="doctorList" class="form-control mb-2" required>
@@ -212,7 +212,7 @@ if ($cancelled->num_rows > 0) {
 document.getElementById("specialization").addEventListener("change", function () {
 
     let spec = this.value;
-    console.log("Selected spec:", spec); // 🔥 ADD THIS
+    console.log("Selected spec:", spec); 
     if (!spec) return;
 
     fetch("getDoctors.php?spec=" + encodeURIComponent(spec))

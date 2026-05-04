@@ -43,17 +43,19 @@ $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(80, 10, 'Product', 1);
 $pdf->Cell(30, 10, 'Qty', 1);
 $pdf->Cell(40, 10, 'Price', 1);
+$pdf->Cell(35, 10, 'Subtotal', 1);
 $pdf->Ln();
 
 // Table Data
 $pdf->SetFont('helvetica', '', 12);
 
 while ($i = $items->fetch_assoc()) {
-    $price = $i['quantity'] * $i['price'];
-
+    $price = $i['price'];
+    $subtotal = $i['quantity'] * $price;
     $pdf->Cell(80, 10, $i['proName'], 1);
     $pdf->Cell(30, 10, $i['quantity'], 1);
-    $pdf->Cell(40, 10, "₹" . $price, 1);
+    $pdf->Cell(35, 10,number_format($price, 2), 1);
+    $pdf->Cell(35, 10,number_format($subtotal, 2), 1);
     $pdf->Ln();
 }
 
@@ -61,8 +63,7 @@ $pdf->Ln(5);
 
 // Total
 $pdf->SetFont('helvetica', 'B', 14);
-$pdf->Cell(0, 10, "Total: ₹{$order['totalAmt']}", 0, 1, 'R');
-
+$pdf->Cell(0, 10, "Total: " . number_format($order['totalAmt'], 2), 0, 1, 'R');
 // Output PDF
 $pdf->Output("invoice_$orderID.pdf", 'I'); // I = open in browser
 ?>
